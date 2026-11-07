@@ -85,11 +85,19 @@ sed -n 'LINHA,LINHA+40p' hexstrike_server.py</pre></div>
 <p>Funciona igual em HTTP e HTTPS (URL decide). Instale as wordlists se faltarem: <code>sudo apt install -y dirb</code>.</p>
 </div>
 
+  }'
 <h2 id="ffuf">3. FFUF — fuzzing web rápido</h2>
 <div class="card"><span class="tag">web</span><span class="tag">fuzz</span>
 <pre>curl -sS -X POST http://127.0.0.1:8888/api/tools/ffuf \
   -H "Content-Type: application/json" \
   -d '{"url":"http://127.0.0.1:8080/FUZZ","wordlist":"/usr/share/wordlists/dirb/common.txt"}'</pre>
+  <pre>curl -sS -X POST http://127.0.0.1:8888/api/tools/ffuf \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "http://127.0.0.1:8080/FUZZ",
+    "wordlist": "/usr/share/wordlists/dirb/common.txt",
+    "output": "resultado.html",
+    "output_format": "html"
 <pre>curl -sS -X POST http://127.0.0.1:8888/api/tools/ffuf \
   -H "Content-Type: application/json" \
   -d '{"url":"https://127.0.0.1:8443/FUZZ","wordlist":"/usr/share/wordlists/dirb/common.txt","additional_args":"-mc 200,301 -t 40 -k"}'</pre>
